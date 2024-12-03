@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.26+commit.8a97fa7a"
+		"version": "0.8.28+commit.7893614a"
 	},
 	"language": "Solidity",
 	"output": {
@@ -125,6 +125,51 @@
 				"type": "error"
 			},
 			{
+				"inputs": [],
+				"name": "EmergencyStop",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InsufficientPayment",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidAddress",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "InvalidPrice",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NoFunds",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NoRoyaltiesSet",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotAuthor",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotForSale",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "NotOwner",
+				"type": "error"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -144,6 +189,16 @@
 					}
 				],
 				"name": "OwnableUnauthorizedAccount",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "RoyaltyTooHigh",
+				"type": "error"
+			},
+			{
+				"inputs": [],
+				"name": "TransferFailed",
 				"type": "error"
 			},
 			{
@@ -276,6 +331,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Paused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "uint256",
 						"name": "tokenId",
@@ -284,7 +352,7 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "newPriceInMicroether",
+						"name": "newPriceInGwei",
 						"type": "uint256"
 					}
 				],
@@ -303,7 +371,7 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "amountInGwei",
 						"type": "uint256"
 					}
 				],
@@ -322,7 +390,7 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "amountInGwei",
 						"type": "uint256"
 					}
 				],
@@ -353,7 +421,7 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "priceInMicroether",
+						"name": "priceInGwei",
 						"type": "uint256"
 					}
 				],
@@ -389,6 +457,19 @@
 				"anonymous": false,
 				"inputs": [
 					{
+						"indexed": false,
+						"internalType": "address",
+						"name": "account",
+						"type": "address"
+					}
+				],
+				"name": "Unpaused",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
 						"indexed": true,
 						"internalType": "address",
 						"name": "recipient",
@@ -397,7 +478,7 @@
 					{
 						"indexed": false,
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "amountInGwei",
 						"type": "uint256"
 					}
 				],
@@ -407,58 +488,6 @@
 			{
 				"stateMutability": "payable",
 				"type": "fallback"
-			},
-			{
-				"inputs": [],
-				"name": "CONTRACT_ROYALTY",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "INITIAL_CHARITY_PERCENT",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "INITIAL_DEVELOPER_PERCENT",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "MICROETHER",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
 			},
 			{
 				"inputs": [
@@ -524,6 +553,13 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "emergencyWithdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -540,6 +576,83 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getRoyaltyDetails",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "uint96",
+						"name": "fraction",
+						"type": "uint96"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "getTokenInfo",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "author",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "priceInGwei",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bool",
+						"name": "isFirstSale",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "gweiAmount",
+						"type": "uint256"
+					}
+				],
+				"name": "gweiToWei",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
 				"type": "function"
 			},
 			{
@@ -569,25 +682,6 @@
 			{
 				"inputs": [
 					{
-						"internalType": "uint256",
-						"name": "microetherAmount",
-						"type": "uint256"
-					}
-				],
-				"name": "microetherToWei",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
 						"internalType": "address payable",
 						"name": "_author",
 						"type": "address"
@@ -599,13 +693,8 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "_priceInMicroether",
+						"name": "_initialPriceInGwei",
 						"type": "uint256"
-					},
-					{
-						"internalType": "uint96",
-						"name": "royaltyFraction",
-						"type": "uint96"
 					}
 				],
 				"name": "mintNFT",
@@ -630,6 +719,40 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					},
+					{
+						"internalType": "bytes",
+						"name": "",
+						"type": "bytes"
+					}
+				],
+				"name": "onERC721Received",
+				"outputs": [
+					{
+						"internalType": "bytes4",
+						"name": "",
+						"type": "bytes4"
+					}
+				],
+				"stateMutability": "pure",
 				"type": "function"
 			},
 			{
@@ -665,6 +788,19 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "paused",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -686,11 +822,24 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "amountInGwei",
 						"type": "uint256"
 					}
 				],
 				"name": "refund",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					}
+				],
+				"name": "removeFromSale",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -809,11 +958,34 @@
 					},
 					{
 						"internalType": "uint256",
-						"name": "newPriceInMicroether",
+						"name": "newPriceInGwei",
 						"type": "uint256"
 					}
 				],
 				"name": "setPrice",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "tokenId",
+						"type": "uint256"
+					},
+					{
+						"internalType": "address",
+						"name": "receiver",
+						"type": "address"
+					},
+					{
+						"internalType": "uint96",
+						"name": "royaltyFraction",
+						"type": "uint96"
+					}
+				],
+				"name": "setRoyaltyInfo",
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -848,6 +1020,13 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "togglePause",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -931,7 +1110,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "weiToMicroether",
+				"name": "weiToGwei",
 				"outputs": [
 					{
 						"internalType": "uint256",
@@ -1047,8 +1226,14 @@
 				"MetadataUpdate(uint256)": {
 					"details": "This event emits when the metadata of a token is changed. So that the third-party platforms such as NFT market could timely update the images and related attributes of the NFT."
 				},
+				"Paused(address)": {
+					"details": "Emitted when the pause is triggered by `account`."
+				},
 				"Transfer(address,address,uint256)": {
 					"details": "Emitted when `tokenId` token is transferred from `from` to `to`."
+				},
+				"Unpaused(address)": {
+					"details": "Emitted when the pause is lifted by `account`."
 				}
 			},
 			"kind": "dev",
@@ -1073,6 +1258,9 @@
 				},
 				"ownerOf(uint256)": {
 					"details": "See {IERC721-ownerOf}."
+				},
+				"paused()": {
+					"details": "Returns true if the contract is paused, and false otherwise."
 				},
 				"renounceOwnership()": {
 					"details": "Leaves the contract without owner. It will not be possible to call `onlyOwner` functions. Can only be called by the current owner. NOTE: Renouncing ownership will leave the contract without an owner, thereby disabling any functionality that is only available to the owner."
@@ -1120,7 +1308,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -1172,6 +1360,14 @@
 			"urls": [
 				"bzz-raw://399594cd8bb0143bc9e55e0f1d071d0d8c850a394fb7a319d50edd55d9ed822b",
 				"dweb:/ipfs/QmbPZzgtT6LEm9CMqWfagQFwETbV1ztpECBB1DtQHrKiRz"
+			]
+		},
+		"@openzeppelin/contracts/security/Pausable.sol": {
+			"keccak256": "0x0849d93b16c9940beb286a7864ed02724b248b93e0d80ef6355af5ef15c64773",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://4ddabb16009cd17eaca3143feadf450ac13e72919ebe2ca50e00f61cb78bc004",
+				"dweb:/ipfs/QmSPwPxX7d6TTWakN5jy5wsaGkS1y9TW8fuhGSraMkLk2B"
 			]
 		},
 		"@openzeppelin/contracts/security/ReentrancyGuard.sol": {
@@ -1303,11 +1499,11 @@
 			]
 		},
 		"contracts/NftArtV2.sol": {
-			"keccak256": "0xc8c7ffa7afd8e812d97dc6a27bec08d2b3bc8f2850110cc1e20327bb2e0f36f2",
+			"keccak256": "0xcfbe102690cab31bd823c773a4e69a3526fd92a30e764278f0724b743ff0f4be",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://637d739504b076d9392a489cfde605efeb4f83a8042d9f5e9794dbace2a238c3",
-				"dweb:/ipfs/QmTpJo6G37zJE8bPhzkRea6j7TuTa9hrty2A86oyh5hkn3"
+				"bzz-raw://fcb8fe26217314eafb8c3b2fb585265bfddc3b7ec96632d992871937b9899917",
+				"dweb:/ipfs/QmburJUHGETraYAtxUos35stLbEn4TXuj96XLVqdDz22z5"
 			]
 		}
 	},
